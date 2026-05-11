@@ -49,9 +49,9 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-////////////////////////////////////////
-/////////////////////////////////
-//////////// user middlewares.
+//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
+///////////////// User middlewares.
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(
@@ -59,5 +59,11 @@ userSchema.pre("save", async function () {
     Number(process.env.BCRYPT_SALT_ROUNDS),
   );
 });
+
+userSchema.methods.comparePassword = async function (
+  candiatePassword: string,
+): Promise<boolean> {
+  return bcrypt.compare(candiatePassword, this.password);
+};
 
 export const User = model<IUser>("User", userSchema);

@@ -1,7 +1,7 @@
 import express from "express";
 import { validateRequest } from "../../middlewares/validateRequest.js";
-import { registerSchema } from "./auth.validation.js";
-import { registerController } from "./auth.controller.js";
+import { loginSchema, registerSchema } from "./auth.validation.js";
+import { loginController, registerController } from "./auth.controller.js";
 
 const router = express.Router();
 
@@ -41,5 +41,15 @@ const router = express.Router();
  *         description: User already exists
  */
 router.post("/register", validateRequest(registerSchema), registerController);
+
+/**
+ * @openapi
+ * /auth/login:
+ *   post:
+ *     summary: Login user
+ *     tags:
+ *       - Auth
+ */
+router.post("/login", validateRequest(loginSchema), loginController);
 
 export default router;

@@ -12,4 +12,5 @@ export interface IUser {
   isVerified: boolean;
   createdAt?: string;
   updatedAt?: string;
+  comparePassword(candidatePassword: string): Promise<boolean>;
 }
