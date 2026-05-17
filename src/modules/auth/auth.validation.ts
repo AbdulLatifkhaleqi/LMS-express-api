@@ -1,6 +1,5 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
-//////////////////////////////////////////////////////
 //////////////////////////////////////////
 //////////////// register schema.
 export const registerSchema = z.object({
@@ -15,12 +14,39 @@ export const registerSchema = z.object({
   }),
 });
 
-//////////////////////////////////////////////////////
 //////////////////////////////////////////
 //////////////// register schema.
 export const loginSchema = z.object({
   body: z.object({
     email: z.email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
+  }),
+});
+
+//////////////////////////////////////////
+//////////////// forgot password schema.
+export const forgotPasswordSchema = z.object({
+  body: z.object({
+    email: z.email("Invalid email address"),
+  }),
+});
+
+//////////////////////////////////////////
+//////////////// reset password schema.
+export const resetPasswordSchema = z.object({
+  params: z.object({
+    token: z.string(),
+  }),
+  body: z.object({
+    password: z.string().min(6),
+  }),
+});
+
+/////////////////////////////////////////
+//////////////// change password schema.
+export const changePasswordSchema = z.object({
+  body: z.object({
+    currentPassword: z.string(),
+    newPassword: z.string().min(6),
   }),
 });

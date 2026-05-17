@@ -8,9 +8,14 @@ export interface IUser {
   email: string;
   password: string;
   role: UserRole;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
   avatar?: string;
   isVerified: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+
+  createdAt?: Date;
+  updatedAt?: Date;
+
   comparePassword(candidatePassword: string): Promise<boolean>;
+  createPasswordResetToken(): string;
 }

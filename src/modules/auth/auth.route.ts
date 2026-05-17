@@ -1,7 +1,14 @@
 import express from "express";
 import { validateRequest } from "../../middlewares/validateRequest.js";
-import { loginSchema, registerSchema } from "./auth.validation.js";
-import { loginController, registerController } from "./auth.controller.js";
+import {
+  changePasswordSchema,
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+} from "./auth.validation.js";
+import { AuthController } from "./auth.controller.js";
+import { authMiddlware } from "./auth.middlwares.js";
 
 const router = express.Router();
 
@@ -40,16 +47,60 @@ const router = express.Router();
  *       409:
  *         description: User already exists
  */
-router.post("/register", validateRequest(registerSchema), registerController);
+router.post(
+  "/register",
+  validateRequest(registerSchema),
+  AuthController.registerUser,
+);
 
 /**
  * @openapi
  * /auth/login:
  *   post:
- *     summary: Login user
+ *     summary: Register user
  *     tags:
  *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: Validation error
+ *       409:
+ *         description: User already exists
  */
-router.post("/login", validateRequest(loginSchema), loginController);
+router.post("/login", validateRequest(loginSchema), AuthController.loginUser);
+
+router.post(
+  "/forgotPassword",
+  validateRequest(forgotPasswordSchema),
+  AuthController.forgotPassword,
+);
+
+router.patch(
+  "/resetPassword/:token",
+  validateRequest(resetPasswordSchema),
+  AuthController.resetPassword,
+);
+
+router.patch(
+  "/changePassword",
+  authMiddlware,
+  validateRequest(changePasswordSchema),
+  AuthController.changePassword,
+);
 
 export default router;

@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 import { UserRole } from "../../shared/enums/user-role.enum.js";
 import { IUser } from "./user.interface.js";
@@ -43,6 +44,9 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
   {
     timestamps: true,
@@ -64,6 +68,19 @@ userSchema.methods.comparePassword = async function (
   candiatePassword: string,
 ): Promise<boolean> {
   return bcrypt.compare(candiatePassword, this.password);
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+  return resetToken;
 };
 
 export const User = model<IUser>("User", userSchema);

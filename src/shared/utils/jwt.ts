@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-
 const secret = process.env.JWT_ACCESS_SECRET;
 
 if (!secret) {
@@ -22,4 +21,8 @@ export const generateToken = (
       expiresIn: "7d",
     },
   );
+};
+
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, secret);
 };
