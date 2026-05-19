@@ -19,3 +19,9 @@ export interface IUser {
   comparePassword(candidatePassword: string): Promise<boolean>;
   createPasswordResetToken(): string;
 }
+
+export interface GetUsersQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
+}

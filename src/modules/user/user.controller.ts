@@ -16,6 +16,21 @@ const getUser = catchAsync(async (req: any, res: Response) => {
   });
 });
 
+/////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////
+/////////////////// get users controller.
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const users = await UserService.getAllUsers();
+
+  res.status(200).json({
+    success: true,
+
+    results: users.length,
+
+    data: users,
+  });
+});
 export const UserController = {
   getUser,
+  getAllUsers,
 };

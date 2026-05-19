@@ -14,6 +14,16 @@ const getUserProfile = async (userId: string) => {
   return user;
 };
 
+//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////
+///////////////////// get users.
+const getAllUsers = async () => {
+  const users = await UserRepository.findAllUsers();
+
+  return users;
+};
+
 export const UserService = {
   getUserProfile,
+  getAllUsers,
 };

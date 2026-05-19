@@ -8,7 +8,7 @@ import {
   resetPasswordSchema,
 } from "./auth.validation.js";
 import { AuthController } from "./auth.controller.js";
-import { authMiddlware } from "./auth.middlwares.js";
+import { authMiddlware } from "../../middlewares/auth.middlwares.js";
 
 const router = express.Router();
 

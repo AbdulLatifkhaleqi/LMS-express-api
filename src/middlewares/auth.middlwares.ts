@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import AppError from "../../shared/errors/app.error.js";
-import { verifyToken } from "../../shared/utils/jwt.js";
+import AppError from "../shared/errors/app.error.js";
+import { verifyToken } from "../shared/utils/jwt.js";
 
 export const authMiddlware = (
   req: Request,
