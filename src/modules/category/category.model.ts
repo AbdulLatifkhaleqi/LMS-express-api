@@ -17,7 +17,6 @@ const categorySchema = new mongoose.Schema<ICategory>(
       required: true,
       unique: true,
       lowercase: true,
-      index: true,
     },
 
     description: {
@@ -47,6 +46,7 @@ const categorySchema = new mongoose.Schema<ICategory>(
     versionKey: false,
   },
 );
+
 /////////////////////////////////////////////////////
 ////////////////////////////////////////
 /////////////// some middlewares
