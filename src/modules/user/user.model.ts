@@ -1,11 +1,11 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 import { UserRole } from "../../shared/enums/user-role.enum.js";
 import { IUser } from "./user.interface.js";
 
-const userSchema = new Schema<IUser>(
+const userSchema = new mongoose.Schema<IUser>(
   {
     firstName: {
       type: String,
@@ -83,4 +83,4 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-export const User = model<IUser>("User", userSchema);
+export const User = mongoose.model<IUser>("User", userSchema);
