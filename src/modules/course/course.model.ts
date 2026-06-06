@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import { ICourse } from "./course.interface.js";
+import slugify from "slugify";
 
 const courseSchema = new mongoose.Schema<ICourse>(
   {
@@ -85,6 +86,41 @@ const courseSchema = new mongoose.Schema<ICourse>(
   },
 );
 
-const Course = mongoose.model<ICourse>("Course", courseSchema);
+///////////////////////////////////////////////////////
+/////////////////////////////////////////
+////////// indexes in course schema.
+courseSchema.index({
+  title: "text",
+  description: "text",
+});
 
+courseSchema.index({
+  category: 1,
+});
+
+courseSchema.index({
+  instructor: 1,
+});
+
+courseSchema.index({
+  level: 1,
+});
+
+courseSchema.index({
+  isPublished: 1,
+});
+
+///////////////////////////////////////////////////////
+/////////////////////////////////////////
+////////// middleware in course schema.
+courseSchema.pre("save", function () {
+  if (this.isModified("title")) {
+    this.slug = slugify(this.title, {
+      lower: true,
+      strict: true,
+    });
+  }
+});
+
+const Course = mongoose.model<ICourse>("Course", courseSchema);
 export default Course;
